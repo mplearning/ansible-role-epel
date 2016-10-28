@@ -6,7 +6,7 @@ Adds the EPEL repository to YUM on Enterprise Linux 7, and installs the `epel-re
 Requirements
 ------------
 
-Ansible 1.9 is the minimum supported due to copious use of `become`.
+Ansible 1.9 is the minimum supported.
 
 Role Variables
 --------------

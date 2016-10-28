@@ -6,19 +6,16 @@
     key: https://getfedora.org/static/352C64E5.txt
     state: present
   when: ansible_os_family == 'RedHat'
-  become: true
 
 - name: Enable EPEL Repository
   yum_repository:
     name: epel
     description: EPEL YUM Repository
     baseurl: http://download.fedoraproject.org/pub/epel/$releasever/$basearch/
-  become: true
   when: ansible_distribution == 'RedHat'
 
 - name: Install EPEL RPM
   package:
     name: epel-release
     state: present
-  become: true
   when: ansible_distribution == 'CentOS'
