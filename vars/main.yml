@@ -1,0 +1,6 @@
+---
+
+epel_gpg:
+  '7': https://getfedora.org/static/352C64E5.txt
+  '6': https://getfedora.org/static/0608B895.txt
+  '5': https://getfedora.org/static/217521F6.txt
