@@ -1,0 +1,49 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Install Required Python Packages (apt)
+    apt:
+      name: '{{ item }}'
+      state: present
+      update_cache: true
+      cache_valid_time: 3600
+    with_items:
+      - python-dev
+      - python-pip
+    when: ansible_pkg_mgr == 'apt'
+
+  - name: Install Required Python Packages (yum)
+    yum:
+      name: '{{ item }}'
+      state: present
+    with_items:
+      - gcc
+      - openssl-devel
+      - python-devel
+    when: ansible_os_family == 'RedHat'
+
+  - name: Get Pip
+    get_url:
+      url: https://bootstrap.pypa.io/get-pip.py
+      dest: /var/tmp/get-pip.py
+    register: pip
+    when: ansible_pkg_mgr != 'apt'
+
+  - name: Install Pip
+    command: python '{{ pip.dest }}'
+    args:
+      creates: /usr/bin/pip
+    when: ansible_pkg_mgr != 'apt'
+
+  - name: Install Ansible
+    pip:
+      name: ansible
+      state: present
+
+  - name: Set Ansible Role Path
+    ini_file:
+      dest: /home/vagrant/{{ role_name }}/ansible.cfg
+      section: defaults
+      option: roles_path
+      value: ..
